@@ -1,0 +1,451 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Adaptive Planning with Generative Models under Uncertainty</title>
+    <style type="text/css">
+        body {
+            font-family: "Titillium Web", "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif;
+            font-weight: 300;
+            font-size: 17px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        
+        @media screen and (min-width: 980px){
+            body {
+                width: 980px;
+            }
+        }
+        
+        h1 {
+            font-weight:300;
+            line-height: 1.15em;
+        }
+        
+        h2 {
+            font-size: 1.75em;
+        }
+        a:link,a:visited {
+            color: #5364cc;
+            text-decoration: none;
+        }
+        a:hover {
+            color: #208799;
+        }
+        h1 {
+            text-align: center;
+        }
+        h2,h3 {
+            text-align: left;
+        }
+        
+        h1 {
+            font-size: 40px;
+            font-weight: 500;
+        }
+        h2 {
+            font-weight: 400;
+            margin: 16px 0px 4px 0px;
+        }
+        h3 {
+            font-weight: 600;
+            margin: 16px 0px 4px 0px;
+        }
+        
+        .paper-title {
+            padding: 1px 0px 1px 0px;
+        }
+        section {
+            margin: 32px 0px 32px 0px;
+            text-align: justify;
+            clear: both;
+        }
+        .col-5 {
+             width: 20%;
+             float: left;
+        }
+        .col-4 {
+             width: 25%;
+             float: left;
+        }
+        .col-3 {
+             width: 33%;
+             float: left;
+        }
+        .col-2 {
+             width: 50%;
+             float: left;
+        }
+        .col-1 {
+             width: 100%;
+             float: left;
+        }
+        
+        .author-row, .affil-row {
+            font-size: 26px;
+        }
+        
+        .author-row-new { 
+            text-align: center; 
+        }
+        
+        .author-row-new a {
+            display: inline-block;
+            font-size: 20px;
+            padding: 4px;
+        }
+        
+        .author-row-new sup {
+            color: #313436;
+            font-size: 12px;
+        }
+        
+        .affiliations-new {
+            font-size: 18px;
+            text-align: center;
+            width: 80%;
+            margin: 0 auto;
+            margin-bottom: 20px;
+        }
+        
+        .row {
+            margin: 16px 0px 16px 0px;
+        }
+        .authors {
+            font-size: 26px;
+        }
+        .affiliatons {
+            font-size: 18px;
+        }
+        .affil-row {
+            margin-top: 18px;
+        }
+        .teaser {
+            max-width: 100%;
+        }
+        .text-center {
+            text-align: center;  
+        }
+        .screenshot {
+            width: 256px;
+            border: 1px solid #ddd;
+        }
+        .screenshot-el {
+            margin-bottom: 16px;
+        }
+        hr {
+            height: 1px;
+            border: 0; 
+            border-top: 1px solid #ddd;
+            margin: 0;
+        }
+        .material-icons {
+            vertical-align: -6px;
+        }
+        p {
+            line-height: 1.25em;
+        }
+        .caption {
+            font-size: 16px;
+            color: #666;
+            margin-top: 4px;
+            margin-bottom: 10px;
+        }
+        
+        video {
+            display: block;
+            margin: auto;
+        }
+        
+        figure {
+            display: block;
+            margin: auto;
+            margin-top: 10px;
+            margin-bottom: 10px;
+        }
+        #bibtex pre {
+            font-size: 14px;
+            background-color: #eee;
+            padding: 16px;
+        }
+        .blue {
+            color: #2c82c9;
+            font-weight: bold;
+        }
+        .orange {
+            color: #d35400;
+            font-weight: bold;
+        }
+        .flex-row {
+            display: flex;
+            flex-flow: row wrap;
+            padding: 0;
+            margin: 0;
+            list-style: none;
+        }
+        
+        .paper-btn-coming-soon {
+            position: relative; 
+            top: 0;
+            left: 0;
+        }
+        
+        .coming-soon {
+            position: absolute;
+            top: -15px;
+            right: -15px;
+        }
+        
+        .paper-btn {
+          position: relative;
+          text-align: center;
+        
+          display: inline-block;
+          margin: 8px;
+          padding: 8px 8px;
+        
+          border-width: 0;
+          outline: none;
+          border-radius: 2px;
+          
+          background-color: #5364cc;
+          color: white !important;
+          font-size: 20px;
+          width: 100px;
+          font-weight: 600;
+        }
+        .paper-btn-parent {
+            display: flex;
+            justify-content: center;
+            margin: 16px 0px;
+        }
+        
+        .paper-btn:hover {
+            opacity: 0.85;
+        }
+        
+        .container {
+            margin-left: auto;
+            margin-right: auto;
+            padding-left: 16px;
+            padding-right: 16px;
+        }
+        
+        .venue {
+            font-size: 23px;
+        }
+        
+        .topnav {
+            background-color: #EEEEEE;
+            overflow: hidden;
+        }
+        
+        .topnav div {
+            max-width: 1070px;
+            margin: 0 auto;
+        }
+        
+        .topnav a {
+            display: inline-block;
+            color: black;
+            text-align: center;
+            vertical-align: middle;
+            padding: 16px 16px;
+            text-decoration: none;
+            font-size: 18px;
+        }
+        
+        .topnav img {
+            padding: 2px 0px;
+            width: 100%;
+            margin: 0.2em 0px 0.3em 0px;
+            vertical-align: middle;
+        }
+        
+        pre {
+            font-size: 0.9em;
+            padding-left: 7px;
+            padding-right: 7px;
+            padding-top: 3px;
+            padding-bottom: 3px;
+            border-radius: 3px;
+            background-color: rgb(235, 235, 235);
+            overflow-x: auto;
+        }
+        
+        .download-thumb {
+            display: flex;
+        }
+        
+        @media only screen and (max-width: 620px) {
+            .download-thumb {
+                display: none;
+            }
+        }
+        
+        .paper-stuff {
+            width: 50%;
+            font-size: 20px;
+        }
+        
+        @media only screen and (max-width: 620px) {
+            .paper-stuff {
+                width: 100%;
+            }
+        }
+        * {
+          box-sizing: border-box;
+        }
+        
+        .column {
+          text-align: center;
+          float: left;
+          width: 16.666%;
+          padding: 5px;
+        }
+        .column3 {
+          text-align: center;
+          float: left;
+          width: 33.333%;
+          padding: 5px;
+        }
+        .column4 {
+          text-align: center;
+          float: left;
+          width: 50%;
+          padding: 5px;
+        }
+        .column5 {
+          text-align: center;
+          float: left;
+          width: 20%;
+          padding: 5px;
+        }
+        .border-right {
+            border-right: 1px solid black;
+        }
+        .border-bottom{
+            border-bottom: 1px solid black;
+        }
+        
+        /* Clearfix (clear floats) */
+        .row::after {
+          content: "";
+          clear: both;
+          display: table;
+        }
+        .img-fluid {
+          max-width: 100%;
+          height: auto;
+        }
+        .figure-img {
+          margin-bottom: 0.5rem;
+          line-height: 1;
+        }
+        
+        .rounded-circle {
+          border-radius: 50% !important;
+        }
+        
+        /* Responsive layout - makes the three columns stack on top of each other instead of next to each other */
+        @media screen and (max-width: 500px) {
+          .column {
+            width: 100%;
+          }
+        }
+        @media screen and (max-width: 500px) {
+          .column3 {
+            width: 100%;
+          }
+        }
+    </style>
+</head>
+    
+    <body>
+    <div class="container">
+        <div class="paper-title">
+            <h1>Adaptive Planning with Generative Models under Uncertainty</h1>
+        </div>
+    
+        <div id="authors">
+            <center>
+                <div class="author-row-new">
+                    <a>Pascal Jutras-Dube</a>,
+                    <a href="https://ruqizhang.github.io">Ruqi Zhang<sup>2</sup></a>,
+                    <a href="https://www.cs.purdue.edu/homes/ab/">Aniket Bera<sup>2</sup></a>
+                </div>
+            </center>
+            <center>
+                <div class="affiliations">
+                    <span>Purdue University</span><br>
+                </div>
+                <div class="affil-row">
+                    <div class="venue text-center"><b>IROS 2024</b></div>
+                </div>
+            </center>
+    
+            <div style="clear: both">
+                <div class="paper-btn-parent">
+                    <!-- <a class="paper-btn" href="TODO">
+                        <span class="material-icons"> description </span> 
+                        Paper
+                    </a> -->
+                    <div class="paper-btn-coming-soon">
+                        <a class="paper-btn" href="https://github.com/PascalJD/ensemble-adaptive-policy">
+                            <span class="material-icons"> code </span>
+                            Code
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    
+        <section id="abstract">
+            <hr>
+            <h2>Abstract</h2>
+            <div class="flex-row">
+                <p>
+                    Planning with generative models has emerged as an effective decision-making paradigm across a wide range of domains, including robotics, reinforcement learning, and autonomous navigation. While continuous replanning at each timestep might seem intuitive because it allows decisions to be made based on the most recent environmental observations, it results in substantial computational challenges, primarily due to the complexity of the generative model's underlying deep learning architecture. Our work addresses this challenge by introducing a simple adaptive planning policy that leverages the generative model's ability to predict long-horizon state trajectories, enabling the execution of multiple actions consecutively without the need for immediate replanning. We propose to use the predictive uncertainty derived from a Deep Ensemble of inverse dynamics models to dynamically adjust the intervals between planning sessions. In our experiments conducted on locomotion tasks within the OpenAI Gym framework, we demonstrate that our adaptive planning policy allows for a reduction in replanning frequency to just about 10% of the steps without compromising performance. Our results underscore the potential of generative modeling as an efficient and effective tool for decision-making.
+                </p>
+            </div>
+        </section>
+    
+        <section id="method">
+            <hr>
+            <h2>Deep Ensemble Adaptive Policy</h2>
+            <div class="mx-auto">
+                <center><img class="card-img-top" src="materials/adaptive_policy.pdf" style="width:950px"></center>
+                <p>The generative model generates a trajectory of states and the action model computes the initial action. The policy continuously predicts and executes subsequent actions as long as the uncertainty remains below a predefined threshold.</p>
+            </div>
+        </section>
+    
+        <section id="results">
+            <hr>
+            <h2>Results Overview</h2>
+            <div class="mx-auto">
+                <center><img class="card-img-top" src="materials/results_table.pdf" style="width:950px"></center>
+                <p>This table presents the average normalized rewards achieved by Decision Diffuser (DD), Static Plan Execution, and Ensemble Action (EA) for both MSE and NLL training criteria. The table also reports the percentage of actions executed without sampling from the generative model, illustrating the savings in NFEs.</p>
+            </div>
+            <div class="mx-auto">
+                <center><img class="card-img-top" src="materials/results_plot.pdf" style="width:950px"></center>
+                <p>Our adaptive policy completes 1000 steps in under 25 seconds, while the Decision Diffuser takes over 23 minutes.</p>
+            </div>
+            <hr>
+        </section>
+    
+        <section id="bibtex">
+            <h2>Bibtex</h2>
+            <div class="page-body">
+                <pre class="code"><code>
+    @inproceedings{jutrasdube2024adaptive,
+      author    = {Jutras-Dubé, P. and Zhang, R. and Bera, A.},
+      title     = {Adaptive Planning with Generative Models under Uncertainty},
+      booktitle = {Proceedings of the International Conference on Intelligent Robots and Systems (IROS)},
+      year      = {2024}
+    }
+                </code></pre>
+            </div>
+        </section>
+    
+    </div>
+    </body></html>
